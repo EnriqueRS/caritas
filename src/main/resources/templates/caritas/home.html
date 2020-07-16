@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Caritas</title>
+<!-- Bootstrap core CSS -->
+<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+<link th:href="@{/bootstrap/css/sticky-footer-navbar.css}"
+	rel="stylesheet">
+</head>
+<body>
+	<h4 class="card-header">
+		 <strong th:text="${date}"></strong>
+	</h4>
+	<div class="row justify-content-center">
+		<h4>Hoy se ha portado...</h4>
+		<table class="table table-bordered">
+			<tbody>
+			<tr>
+				<img id="green_face" onclick="face_click(this.id)" th:src="@{images/green_face.png}" width="100" height="100"/>
+			</tr>
+			<tr>
+				<img id="yellow_face" onclick="face_click(this.id)" th:src="@{images/yellow_face.png}" width="100" height="100"/>
+			</tr>
+			<tr>
+				<img id="red_face" onclick="face_click(this.id)" th:src="@{images/red_face.png}" width="100" height="100"/>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<h1>Últimos 7 días</h1>
+	<table class="table table-bordered">
+		<tbody>
+		<tr>
+			<td>Lunes 13 Julio, 2020</td>
+			<td>Martes 14 Julio, 2020</td>
+			<td>Miércoles 15 Julio, 2020</td>
+			<td>Lunes 13 Julio, 2020</td>
+			<td>Martes 14 Julio, 2020</td>
+			<td>Miércoles 15 Julio, 2020</td>
+			<td>Miércoles 15 Julio, 2020</td>
+		</tr>
+		<tr>
+			<td th:each="day : ${lastWeek}" scope="row">
+				<td><img th:src="@{images/green_face.png}" width="50" height="50"/>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:inline="javascript">
+		function face_click(clicked_id) {
+			var data = {
+				face: clicked_id
+			};
+			$.ajax({
+				type: "POST",
+				url: "caritas/selectFace",
+				data: data,
+				success: function (result) {
+					alert("Ok");
+				},
+				error: function (result) {
+					alert("fail");
+				}
+			});
+		}
+	</script>
+</body>
+</html>
