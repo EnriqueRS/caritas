@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Optional;
+import java.text.ParseException;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/caritas")
@@ -26,9 +28,20 @@ public class MainController {
 
 	@GetMapping("")
 	public String showHome(Model model) {
-		String currentDate = Utils.getCurrentDate();
-		Optional<DayBehavior> lastWeekDays = dayBehaviorService.getLastXDays(Utils.WEEK);
-		lastWeekDays.ifPresent(dayBehavior -> model.addAttribute("lastWeek", dayBehavior));
+		String currentDate = null;
+		try {
+			currentDate = Utils.getCurrentDate();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		List<DayBehavior> lastWeekDays = dayBehaviorService.getLastXDays(Utils.WEEK);
+		Collections.reverse(lastWeekDays);
+		model.addAttribute("lastWeek", lastWeekDays);
+		try {
+			model.addAttribute("lastWeekText", Utils.getDateTextFormat(lastWeekDays));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("date", currentDate);
 		return "caritas/home";
 	}

@@ -34,17 +34,16 @@
 	<table class="table table-bordered">
 		<tbody>
 		<tr>
-			<td>Lunes 13 Julio, 2020</td>
-			<td>Martes 14 Julio, 2020</td>
-			<td>Miércoles 15 Julio, 2020</td>
-			<td>Lunes 13 Julio, 2020</td>
-			<td>Martes 14 Julio, 2020</td>
-			<td>Miércoles 15 Julio, 2020</td>
-			<td>Miércoles 15 Julio, 2020</td>
+			<td th:each="day_text : ${lastWeekText}" scope="row" th:text="${day_text}" class="text-center">
+			</td>
 		</tr>
 		<tr>
 			<td th:each="day : ${lastWeek}" scope="row">
-				<td><img th:src="@{images/green_face.png}" width="50" height="50"/>
+				<div th:switch="${day.face}" class="text-center">
+					<img th:case="1" th:src="@{images/green_face.png}" width="50" height="50"/>
+					<img th:case="0" th:src="@{images/yellow_face.png}" width="50" height="50"/>
+					<img th:case="-1" th:src="@{images/red_face.png}" width="50" height="50"/>
+				</div>
 			</td>
 		</tr>
 		</tbody>
