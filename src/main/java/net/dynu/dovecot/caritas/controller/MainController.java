@@ -55,8 +55,12 @@ public class MainController {
 	public String selectFace(Model model, @RequestParam("face") String face, @RequestParam("date") String date) {
 		int dayId = Utils.getDateIdFormat(new Date(Long.parseLong(date)));
 		Integer behavior = Utils.getBehaviorFromText(face);
-		dayBehaviorService.saveDayBehavior(dayId, behavior);
-		model.addAttribute("today", new DayBehavior(dayId, behavior));
+		try {
+			dayBehaviorService.saveDayBehavior(dayId, behavior);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("today", new DayBehavior(dayId, behavior, new Date()));
 		return "caritas/fragment_today_behavior :: #today_behavior";
 	}
 }

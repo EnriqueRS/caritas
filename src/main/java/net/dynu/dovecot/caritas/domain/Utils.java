@@ -44,6 +44,10 @@ public class Utils {
 		return Integer.parseInt(dateFormat.format(date.getTime()));
 	}
 
+	public static Date getDateFromDateIdFormat (int dateId) throws ParseException {
+		return new SimpleDateFormat("yyyyMMdd").parse(String.valueOf(dateId));
+	}
+
 	public static int getCurrentDateIdFormat () {
 		return getDateIdFormat(new Date());
 	}

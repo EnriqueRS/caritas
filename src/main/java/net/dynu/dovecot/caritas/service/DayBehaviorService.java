@@ -7,6 +7,7 @@ import net.dynu.dovecot.caritas.repository.DayBehaviorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +29,8 @@ public class DayBehaviorService {
         return getLastXDaysFromDay(Utils.getCurrentDateIdFormat(), days);
     }
 
-    public void saveDayBehavior(int dayId, Integer behavior) {
-        DayBehavior behaviorDay = new DayBehavior(dayId, behavior);
+    public void saveDayBehavior(int dayId, Integer behavior) throws ParseException {
+        DayBehavior behaviorDay = new DayBehavior(dayId, behavior, Utils.getDateFromDateIdFormat(dayId));
         dayBehaviorRepository.save(behaviorDay);
     }
 
