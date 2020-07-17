@@ -27,7 +27,7 @@ public class Utils {
 
 	public static String getDateTextFormat(int dateId) throws ParseException {
 		Date date = new SimpleDateFormat("yyyyMMdd").parse(String.valueOf(dateId));
-		DateFormat dateFormat = new SimpleDateFormat("EEEE dd LLLL, yyyy", new Locale("es", "ES"));
+		DateFormat dateFormat = new SimpleDateFormat("EEEE dd LLLL", new Locale("es", "ES"));
 		return dateFormat.format(date);
 	}
 
@@ -39,10 +39,28 @@ public class Utils {
 		return dateTextList;
 	}
 
-	public static int getCurrentDateIdFormat () {
-		Calendar calendar = Calendar.getInstance();
+	public static int getDateIdFormat (Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		return Integer.parseInt(dateFormat.format(calendar.getTime()));
+		return Integer.parseInt(dateFormat.format(date.getTime()));
 	}
 
+	public static int getCurrentDateIdFormat () {
+		return getDateIdFormat(new Date());
+	}
+
+	public static Integer getBehaviorFromText(String face) {
+		Integer behavior = null;
+		switch (face) {
+			case "green_face":
+				behavior = 1;
+				break;
+			case "yellow_face":
+				behavior = 0;
+				break;
+			case "red_face":
+				behavior = -1;
+				break;
+		}
+		return behavior;
+	}
 }

@@ -5,6 +5,16 @@ import javax.persistence.Id;
 
 @Entity
 public class DayBehavior {
+
+	public DayBehavior(){
+
+	}
+
+	public DayBehavior(Integer id, Integer face) {
+		this.id = id;
+		this.face = face;
+	}
+
 	@Id
 	private Integer id;
 	private Integer face;

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/caritas")
@@ -43,12 +45,18 @@ public class MainController {
 			e.printStackTrace();
 		}
 		model.addAttribute("date", currentDate);
+		Optional<DayBehavior> todayBehaviorOptional = dayBehaviorService.getDay(Utils.getCurrentDateIdFormat());
+		todayBehaviorOptional.ifPresent(todayBehavior -> model.addAttribute("today", todayBehavior));
+
 		return "caritas/home";
 	}
 	
 	@RequestMapping(value = "/selectFace", method = RequestMethod.POST)
-	public String selectFace(@RequestParam("face") String face) {
-		System.out.println(face);
-		return "caritas/home";
+	public String selectFace(Model model, @RequestParam("face") String face, @RequestParam("date") String date) {
+		int dayId = Utils.getDateIdFormat(new Date(Long.parseLong(date)));
+		Integer behavior = Utils.getBehaviorFromText(face);
+		dayBehaviorService.saveDayBehavior(dayId, behavior);
+		model.addAttribute("today", new DayBehavior(dayId, behavior));
+		return "caritas/fragment_today_behavior :: #today_behavior";
 	}
 }

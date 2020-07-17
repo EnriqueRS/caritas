@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Enrique Ríos on 15/7/20.
@@ -25,5 +26,14 @@ public class DayBehaviorService {
 
     public List<DayBehavior> getLastXDays (int days) {
         return getLastXDaysFromDay(Utils.getCurrentDateIdFormat(), days);
+    }
+
+    public void saveDayBehavior(int dayId, Integer behavior) {
+        DayBehavior behaviorDay = new DayBehavior(dayId, behavior);
+        dayBehaviorRepository.save(behaviorDay);
+    }
+
+    public Optional<DayBehavior> getDay (int id) {
+        return dayBehaviorRepository.findById(id);
     }
 }
