@@ -53,18 +53,18 @@ public class Utils {
 	}
 
 	public static Integer getBehaviorFromText(String face) {
-		Integer behavior = null;
-		switch (face) {
-			case "green_face":
-				behavior = 1;
-				break;
-			case "yellow_face":
-				behavior = 0;
-				break;
-			case "red_face":
-				behavior = -1;
-				break;
+		if (face.contains("green_face")) {
+			return 1;
+		} else if (face.contains("yellow_face")) {
+			return 0;
+		} else {
+			return -1;
 		}
-		return behavior;
+	}
+
+	public static Integer getYesterdayDateIdFormat() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -1);
+		return getDateIdFormat(calendar.getTime());
 	}
 }

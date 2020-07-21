@@ -48,11 +48,14 @@ public class MainController {
 		Optional<DayBehavior> todayBehaviorOptional = dayBehaviorService.getDay(Utils.getCurrentDateIdFormat());
 		todayBehaviorOptional.ifPresent(todayBehavior -> model.addAttribute("today", todayBehavior));
 
+		Optional<DayBehavior> yesterdayBehaviorOptional = dayBehaviorRepository.findById(Utils.getYesterdayDateIdFormat());
+		yesterdayBehaviorOptional.ifPresent(yesterdayBehavior -> model.addAttribute("yesterday", yesterdayBehavior));
+
 		return "caritas/home";
 	}
 	
-	@RequestMapping(value = "/selectFace", method = RequestMethod.POST)
-	public String selectFace(Model model, @RequestParam("face") String face, @RequestParam("date") String date) {
+	@RequestMapping(value = "/selectFaceToday", method = RequestMethod.POST)
+	public String selectFaceToday(Model model, @RequestParam("face") String face, @RequestParam("date") String date) {
 		int dayId = Utils.getDateIdFormat(new Date(Long.parseLong(date)));
 		Integer behavior = Utils.getBehaviorFromText(face);
 		try {
@@ -62,5 +65,17 @@ public class MainController {
 		}
 		model.addAttribute("today", new DayBehavior(dayId, behavior, new Date()));
 		return "caritas/fragment_today_behavior :: #today_behavior";
+	}
+
+	@RequestMapping(value = "/selectFaceYesterday", method = RequestMethod.POST)
+	public String selectFaceYesterday(@RequestParam("face") String face, @RequestParam("date") String date) {
+		int dayId = Utils.getDateIdFormat(new Date(Long.parseLong(date)));
+		Integer behavior = Utils.getBehaviorFromText(face);
+		try {
+			dayBehaviorService.saveDayBehavior(dayId, behavior);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "caritas/home";
 	}
 }
